@@ -72,4 +72,24 @@ public class CameraMovement : MonoBehaviour
 
     }
 
+    
+    public IEnumerator CameraShake(float duration, float magnitude)
+    {
+        float originalSize = camera.orthographicSize;
+        magnitude = magnitude + originalSize;
+        float elapsedTime = 0.0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = Mathf.InverseLerp(0, duration, elapsedTime);
+            camera.orthographicSize = Mathf.Lerp(magnitude, originalSize, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        camera.orthographicSize = originalSize;
+    }
+    
+
 }
